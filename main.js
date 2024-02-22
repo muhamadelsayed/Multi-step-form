@@ -1,4 +1,27 @@
-// form one
+let stepOne = document.querySelector("#stepOne");;
+let stepTwo = document.querySelector("#stepTwo");
+let stepThree = document.querySelector("#stepThree");
+let stepFour = document.querySelector("#stepFour");
+
+let allStips = [0,...document.getElementsByClassName("getSteps")];
+// we add zero as we started in loop in toggelSteps() from 1
+// we removes 0 so no error occurs as it's not html ele :D
+allStips.slice(1).forEach(e=>{
+    if(e.id === "stepOne"){
+        e.style.display = "flex"
+    }else{
+        e.style.display = "none"
+    }
+});
+
+// we add zero as we started in loop in toggelSteps() from 1
+let activeLiSpanS = [0,...document.querySelectorAll("#Sidebar ul li span")];
+
+let nextStepEleSBtnS = document.getElementsByClassName("nextBtn");
+let previousBtnS = [...document.getElementsByClassName("backBtn")];
+
+let currentStep = 1;
+// form one start
 let formOne = document.querySelector("#formOne");
 let phoneCheck = document.querySelector("#regexPhone");
 let nameCheck = document.querySelector("#name");
@@ -17,8 +40,8 @@ formOne.addEventListener("submit",(e)=>{
     let data1 = Object.fromEntries(firstData)
     if(regPhone.test(data1.phone) && data1.name.length>0&&regEmail.test(data1.email)){
         e.preventDefault();
-        console.log("done")
         firstFormData = data1;
+        nextStep();
     }else if(!data1.name.length>0){
         nameCheck.style.border = "1.5px solid hsl(354, 84%, 57%)";
         let label1 = document.querySelectorAll("#formOne label")[0];
@@ -48,3 +71,72 @@ formOne.addEventListener("submit",(e)=>{
     });  
   }
 })
+// form one end
+
+// main func
+function nextStep(){
+    currentStep++
+    let mainArr = [...nextStepEleSBtnS];
+    toggelSteps()
+}
+
+function toggelSteps(){
+    for (let i = 1;i<=4; i++){
+        if(i !== currentStep){
+            allStips[i].style.display = "none";
+            activeLiSpanS[i].classList.remove("active")
+        }else{
+            allStips[i].style.display = "flex";
+            activeLiSpanS[i].classList.add("active")
+        }
+    }
+}
+
+// step 2 start
+let monthlyEleS = [...document.getElementsByClassName("monthly")];
+let yearlyEleS = [...document.getElementsByClassName("yearly")];
+
+let switchContainer = document.getElementById("select-plan-period-container");
+// default
+yearlyEleS.forEach(e =>{
+    e.style.display = "none";
+});
+switchContainer.children[2].style.color = "hsl(231, 11%, 63%)";
+let switchMonYear = document.getElementById("selcetInput");
+
+switchMonYear.addEventListener("change", (e) => {
+    if(switchMonYear.checked){
+    switchContainer.children[2].style.color = "hsl(213, 96%, 18%)";
+    switchContainer.children[0].style.color = "hsl(231, 11%, 63%)";
+    monthlyEleS.forEach(e =>{
+        e.style.display = "none";
+    });
+    yearlyEleS.forEach(e =>{
+        e.style.display = "block";
+    });
+    [...document.getElementById("plans").children].forEach(e =>{
+        e.style.height = "110%"
+    });
+}else{
+    switchContainer.children[0].style.color = "hsl(213, 96%, 18%)";
+    switchContainer.children[2].style.color = "hsl(231, 11%, 63%)";
+    yearlyEleS.forEach(e =>{
+        e.style.display = "none";
+    });
+    monthlyEleS.forEach(e =>{
+        e.style.display = "block";
+    });
+    [...document.getElementById("plans").children].forEach(e =>{
+        e.style.height = "100%"
+
+    });
+   };
+});
+[...document.getElementById("plans").children].forEach(e =>{
+    e.addEventListener("click",()=>{
+        e.classList.toggle("selectedPlan");
+        [...document.getElementById("plans").children].forEach(ele =>{if(ele !== e){ele.classList.remove("selectedPlan")}})
+    })
+})
+
+// step 2 end
