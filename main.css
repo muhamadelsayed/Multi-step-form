@@ -300,8 +300,9 @@ li div{
     color: hsl(231, 11%, 63%);
     cursor: pointer;
     transform: translateY(-0.5em);
+    font-weight: 600;
     transition: color 0.4s;
-}#back2:hover{color:hsl(213, 96%, 18%) ;font-weight: 600;}
+}#back2:hover{color:hsl(213, 96%, 18%) ;}
 #sum2{
     margin-bottom: 1em;
 }
