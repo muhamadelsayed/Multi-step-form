@@ -177,4 +177,41 @@ previousBtnS[0].addEventListener("click",()=>{
 })
 // step 2 end
 // step 3 start
+// some styles functions
+// default
+let svgS = document.querySelectorAll(".checkboxcontainer svg");
+svgS.forEach(e =>{
+    e.style.display = "none";
+})
+let formThreeData= [];
+document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
+    e.addEventListener("click",()=>{
+        console.log((e));
+        if(e.attributes[1].value == "false"){
+            e.attributes[1].value = "true"
+            svgS.forEach(ele =>{
+                if(ele.parentElement.parentElement.parentElement == e){
+                  ele.style.display = "block";
+                  ele.parentElement.style.border = "none";
+                  e.style.background = "hsl(217, 100%, 97%)";
+                  e.style.borderColor = "hsl(243, 100%, 62%)";
+                  formThreeData.push(e.id)
+                  console.log(formThreeData);
+                }
+            })
+        }else{
+            e.attributes[1].value = "false"
+            formThreeData = formThreeData.filter(element =>{return element !== e.id})
+            console.log(formThreeData);
+            svgS.forEach(ele =>{
+                if(ele.parentElement.parentElement.parentElement == e){
+                    ele.style.display = "none"
+                    ele.parentElement.style.border = "1px solid hsl(231, 11%, 63%)"
+                    e.style.background = "white"
+                    e.style.borderColor = "hsl(231, 11%, 63%)";
+                }
+            })
+        }
+    })
+})
 // step 3 end

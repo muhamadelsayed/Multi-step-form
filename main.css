@@ -340,7 +340,7 @@ li div{
     cursor: pointer;
     height: 30%;
     display: flex;
-    transition: all 0.4s;
+    transition: all 0.2s;
 }
 #service:hover{
     border-color: hsl(243, 100%, 62%);
@@ -357,7 +357,20 @@ li div{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right:1em ;
+    margin-right:.5em ;
+}
+.checkboxcontainer{
+    width: 15px;
+    height: 15px;
+    border: 1px solid hsl(231, 11%, 63%);
+    border-radius: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.checkboxcontainer svg {
+    width: 15px;
+    height: 15px;
 }
 .moveable2{
     height: 100%;
@@ -366,7 +379,7 @@ li div{
     flex-direction: column;
     justify-content:center;
     align-items: flex-start;
-    margin-right:1em ;
+    margin-right:.5em ;
     gap: 5px;
 }
 .hfour{
@@ -382,7 +395,11 @@ li div{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right:1em ; 
+    margin-right:.5em ; 
+}
+.cash{
+   color:  hsl(243, 100%, 62%);
+   font-size: small;
 }
 
 
