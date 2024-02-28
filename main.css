@@ -109,7 +109,7 @@ li div{
     align-items: stretch;
 }
 /* card one I also made simillar together*/
-#stepOne,#stepTwo{
+#stepOne,#stepTwo,#stepThree{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -309,7 +309,84 @@ li div{
 #sum2:hover{
     background-color: hsl(213, 96%, 18%);
 }
-
-
 /* step two end*/
+/* step three start*/
+#stepThree{
+    justify-content: normal;
+    width: 70%;
+}
+#lorem3{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+#add-onsContainer{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+}
+#containerFormid{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+#service,#storage,#Profile{
+    border: 1.5px solid hsl(231, 11%, 63%);
+    border-radius: 10px;
+    cursor: pointer;
+    height: 30%;
+    display: flex;
+    transition: all 0.4s;
+}
+#service:hover{
+    border-color: hsl(243, 100%, 62%);
+}
+#storage:hover{
+    border-color: hsl(243, 100%, 62%);  
+}
+#Profile:hover{
+    border-color: hsl(243, 100%, 62%); 
+}
+.moveable1{
+    height: 100%;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right:1em ;
+}
+.moveable2{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: flex-start;
+    margin-right:1em ;
+    gap: 5px;
+}
+.hfour{
+    color:hsl(213, 96%, 18%) ;
+}
+.moveable2 p{
+    font-size: 11px;
+    color: hsl(231, 11%, 63%);
+}
+.moveable3{
+    height: 100%;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right:1em ; 
+}
+
+
+/* step three end*/
 /* main sectoin end */
+
+

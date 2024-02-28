@@ -176,3 +176,5 @@ previousBtnS[0].addEventListener("click",()=>{
     previousStep()
 })
 // step 2 end
+// step 3 start
+// step 3 end
