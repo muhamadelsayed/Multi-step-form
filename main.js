@@ -17,7 +17,7 @@ allStips.slice(1).forEach(e=>{
 // we add zero as we started in loop in toggelSteps() from 1
 let activeLiSpanS = [0,...document.querySelectorAll("#Sidebar ul li span")];
 
-let nextStepEleSBtnS = document.getElementsByClassName("nextBtn");
+let nextStepEleSBtnS = [...document.getElementsByClassName("nextBtn")];
 let previousBtnS = [...document.getElementsByClassName("backBtn")];
 
 let currentStep = 1;
@@ -27,7 +27,7 @@ let phoneCheck = document.querySelector("#regexPhone");
 let nameCheck = document.querySelector("#name");
 let email = document.querySelector("#emailvalidation");
 let regPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-let regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+let regEmail = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,4}$/;
 
 // let submit1 = document.getElementById("sum1");
 let firstFormData;
@@ -150,7 +150,7 @@ plansArr.forEach(e =>{
 let requireSpan2 = document.createElement("span");
     requireSpan2.textContent = "This field is required"
     requireSpan2.classList.add("requireSpan");
-document.getElementById("sum2").addEventListener("click",()=>{
+nextStepEleSBtnS[1].addEventListener("click",()=>{
     if(plansArr[0].classList.contains("selectedPlan") || plansArr[1].classList.contains("selectedPlan") || plansArr[2].classList.contains("selectedPlan")){
         plansArr.forEach(e =>{
             if(e.classList.contains("selectedPlan")){
@@ -196,13 +196,11 @@ document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
                   e.style.background = "hsl(217, 100%, 97%)";
                   e.style.borderColor = "hsl(243, 100%, 62%)";
                   formThreeData.push(e.id)
-                  console.log(formThreeData);
                 }
             })
         }else{
             e.attributes[1].value = "false"
             formThreeData = formThreeData.filter(element =>{return element !== e.id})
-            console.log(formThreeData);
             svgS.forEach(ele =>{
                 if(ele.parentElement.parentElement.parentElement == e){
                     ele.style.display = "none"
@@ -213,5 +211,11 @@ document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
             })
         }
     })
+})
+nextStepEleSBtnS[2].addEventListener("click",()=>{
+    nextStep()
+})
+previousBtnS[1].addEventListener("click",()=>{
+    previousStep()
 })
 // step 3 end
