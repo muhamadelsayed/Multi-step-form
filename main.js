@@ -147,6 +147,7 @@ plansArr.forEach(e =>{
     })
 })
 // next step
+let cashInStep3 = [...document.querySelectorAll(".cash")];
 let requireSpan2 = document.createElement("span");
     requireSpan2.textContent = "This field is required"
     requireSpan2.classList.add("requireSpan");
@@ -158,7 +159,15 @@ nextStepEleSBtnS[1].addEventListener("click",()=>{
                     id:e.id,
                     monYear:monYear
                 };
-                console.log(secFormData);
+                if(secFormData.monYear == "year"){
+                    cashInStep3[0].innerHTML = "+$10/yr";
+                    cashInStep3[1].innerHTML = "+$20/yr";
+                    cashInStep3[2].innerHTML = "+$20/yr";
+                }else{
+                    cashInStep3[0].innerHTML = "+$1/mo";
+                    cashInStep3[1].innerHTML = "+$2/mo";
+                    cashInStep3[2].innerHTML = "+$2/mo";
+                }
                 nextStep()
             }
         })
@@ -219,3 +228,101 @@ previousBtnS[1].addEventListener("click",()=>{
     previousStep()
 })
 // step 3 end
+// step 4 start
+// calc funcs
+// formOne data us in firstFormData
+// main plans data (obj)(name in id,mon year is next val) is in secFormData
+// additions (arr) in useableFormThreeData
+// add price as i missed include it
+// get values from html console.log(parseInt("$=+120".match(/\d+/)));
+let planPrice;
+function cashMonYear(){
+    if(secFormData.monYear == "month"){
+        switch (secFormData.id) {
+            case "Arcade":
+                planPrice = "$9/mo"
+                break;
+            case "Advanced":
+                    planPrice = "$12/mo"
+                break;
+            case "Pro":    
+                    planPrice = "$15/mo"
+                break;
+        }
+    }else{
+        switch (secFormData.id) {
+            case "Arcade":
+                planPrice = "$90/yr"
+                break;
+            case "Advanced":
+                    planPrice = "$120/yr"
+                break;
+            case "Pro":    
+                    planPrice = "$150/yr"
+                break;
+        }
+    }
+}
+// I've added another event listener to be able to deal with new data
+nextStepEleSBtnS[2].addEventListener("click",()=>{
+    // first section
+    cashMonYear()
+    document.querySelector(".forFlex h4").innerHTML = `${secFormData.id} (${secFormData.monYear == "month"?"Monthly":"Yearly"})`;
+    document.querySelector(".cashPlan").innerHTML = `${planPrice}`;
+    // second section
+    // handle names in the array
+    for(let i = 0;i<formThreeData.length;i++){
+        if(formThreeData[i] === "Profile"){
+            formThreeData[i] = "Customizable Profile"
+        }
+        if(formThreeData[i] === "storage"){
+            formThreeData[i] = "Larger storage"
+        }
+        if(formThreeData[i] === "service"){
+            formThreeData[i] = "Online service"
+        }
+    }
+    // handle formThreeData childrens in addition name
+    switch (formThreeData.length) {
+        case 0:
+            break;
+        case 1:
+        let p = document.createElement("p");
+        p.textContent = formThreeData[0];
+        document.getElementById("addName").append(p);
+            break;
+        case 2:
+        let p1 = document.createElement("p");
+        let p2 = document.createElement("p");
+        p1.textContent = formThreeData[0];    
+        p2.textContent = formThreeData[1];
+        document.getElementById("addName").append(p1,p2);
+            break;
+        case 3:
+        let p31 = document.createElement("p");
+        let p32 = document.createElement("p");
+        let p33 = document.createElement("p");
+        p31.textContent = formThreeData[0];    
+        p32.textContent = formThreeData[1];   
+        p33.textContent = formThreeData[2];
+        document.getElementById("addName").append(p31,p32,p33);    
+            break;        
+    }
+})
+// change logic
+document.querySelector(".forFlex p").addEventListener("click",()=>{
+    if(secFormData.monYear == "month"){
+        // first section
+        secFormData.monYear = "year";
+        cashMonYear();
+        document.querySelector(".forFlex h4").innerHTML = `${secFormData.id} (${secFormData.monYear == "month"?"Monthly":"Yearly"})`;
+        document.querySelector(".cashPlan").innerHTML = `${planPrice}`;
+    }else{
+        // first section
+        secFormData.monYear = "month";
+        cashMonYear();
+        document.querySelector(".forFlex h4").innerHTML = `${secFormData.id} (${secFormData.monYear == "month"?"Monthly":"Yearly"})`;
+        document.querySelector(".cashPlan").innerHTML = `${planPrice}`;
+    }
+})
+// step 4 end
