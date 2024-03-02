@@ -197,7 +197,8 @@ document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
     e.addEventListener("click",()=>{
         console.log((e));
         if(e.attributes[1].value == "false"){
-            e.attributes[1].value = "true"
+            e.attributes[1].value = "true";
+            // document.querySelector(`#${e.id} .cash`).setAttribute("used","yes")
             svgS.forEach(ele =>{
                 if(ele.parentElement.parentElement.parentElement == e){
                   ele.style.display = "block";
@@ -210,6 +211,7 @@ document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
         }else{
             e.attributes[1].value = "false"
             formThreeData = formThreeData.filter(element =>{return element !== e.id})
+            // document.querySelector(`#${e.id} .cash`).setAttribute("used","no")
             svgS.forEach(ele =>{
                 if(ele.parentElement.parentElement.parentElement == e){
                     ele.style.display = "none"
@@ -219,6 +221,18 @@ document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
                 }
             })
         }
+        // if(document.querySelector(`#${e.id} .cash`).attributes[1].value === "yes"){
+        //     formthreeCash.push(parseInt(document.querySelector(`#${e.id} .cash`).innerHTML.match(/\d+/)));
+        // }else{
+        //     // formthreeCash.filter(elem =>{return elem !== document.querySelector(`#${e.id} .cash`).innerHTML.match(/\d+/)})
+        //     let destruction = [];
+        //     for(let j = 0;j<formthreeCash.length;j++){
+        //         if(!formthreeCash[j] !== document.querySelector(`#${e.id} .cash`).innerHTML.match(/\d+/)){
+        //             destruction.push(formthreeCash[j])
+        //         }
+        //     }
+        //     formthreeCash = destruction;
+        // }
     })
 })
 nextStepEleSBtnS[2].addEventListener("click",()=>{
@@ -234,7 +248,6 @@ previousBtnS[1].addEventListener("click",()=>{
 // main plans data (obj)(name in id,mon year is next val) is in secFormData
 // additions (arr) in useableFormThreeData
 // add price as i missed include it
-// get values from html console.log(parseInt("$=+120".match(/\d+/)));
 let planPrice;
 function cashMonYear(){
     if(secFormData.monYear == "month"){
@@ -263,6 +276,8 @@ function cashMonYear(){
         }
     }
 }
+let formthreeCashObj = {};
+let formthreeCash = [];
 // I've added another event listener to be able to deal with new data
 nextStepEleSBtnS[2].addEventListener("click",()=>{
     // first section
@@ -273,41 +288,23 @@ nextStepEleSBtnS[2].addEventListener("click",()=>{
     // handle names in the array
     for(let i = 0;i<formThreeData.length;i++){
         if(formThreeData[i] === "Profile"){
-            formThreeData[i] = "Customizable Profile"
+            formThreeData[i] = "Customizable Profile";
+            formthreeCashObj.Profile = `+$${secFormData.monYear == "month"?"2/mo":"20/yr"}`;
         }
         if(formThreeData[i] === "storage"){
             formThreeData[i] = "Larger storage"
+            formthreeCashObj.storage = `+$${secFormData.monYear == "month"?"2/mo":"20/yr"}`;
         }
         if(formThreeData[i] === "service"){
             formThreeData[i] = "Online service"
+            formthreeCashObj.service = `+$${secFormData.monYear == "month"?"1/mo":"10/yr"}`;
         }
     }
-    // handle formThreeData childrens in addition name
-    switch (formThreeData.length) {
-        case 0:
-            break;
-        case 1:
-        let p = document.createElement("p");
-        p.textContent = formThreeData[0];
-        document.getElementById("addName").append(p);
-            break;
-        case 2:
-        let p1 = document.createElement("p");
-        let p2 = document.createElement("p");
-        p1.textContent = formThreeData[0];    
-        p2.textContent = formThreeData[1];
-        document.getElementById("addName").append(p1,p2);
-            break;
-        case 3:
-        let p31 = document.createElement("p");
-        let p32 = document.createElement("p");
-        let p33 = document.createElement("p");
-        p31.textContent = formThreeData[0];    
-        p32.textContent = formThreeData[1];   
-        p33.textContent = formThreeData[2];
-        document.getElementById("addName").append(p31,p32,p33);    
-            break;        
-    }
+    formthreeCash = Object.values(formthreeCashObj);
+    // adding text and price for extentions
+    let htmlText = document.getElementById("addName");
+    let htmlCash = document.getElementById("addPrice");
+    createPElementS(formThreeData,htmlText,formthreeCash,htmlCash)
 })
 // change logic
 document.querySelector(".forFlex p").addEventListener("click",()=>{
@@ -317,12 +314,37 @@ document.querySelector(".forFlex p").addEventListener("click",()=>{
         cashMonYear();
         document.querySelector(".forFlex h4").innerHTML = `${secFormData.id} (${secFormData.monYear == "month"?"Monthly":"Yearly"})`;
         document.querySelector(".cashPlan").innerHTML = `${planPrice}`;
+        // second section
+        if(formthreeCash.length !== 0){
+            document.querySelectorAll(`#addPrice p`).forEach(e =>{
+                e.textContent = `+$${e.textContent.slice(2,3)}0/yr`
+            })
+        }
     }else{
         // first section
         secFormData.monYear = "month";
         cashMonYear();
         document.querySelector(".forFlex h4").innerHTML = `${secFormData.id} (${secFormData.monYear == "month"?"Monthly":"Yearly"})`;
         document.querySelector(".cashPlan").innerHTML = `${planPrice}`;
+        // second section
+        if(formthreeCash.length !== 0){
+            document.querySelectorAll(`#addPrice p`).forEach(e =>{
+                e.textContent = `+$${e.textContent.slice(2,3)}/mo`
+            })
+        }
     }
 })
 // step 4 end
+function createPElementS(textArr,textHtml,cashArr,cashHtml){
+    if(textArr.length !== 0){
+        for(let i = 0;i<textArr.length;i++){
+            let para = document.createElement("p");
+            para.textContent = textArr[i];
+            textHtml.append(para);
+            let cashP = document.createElement("p");
+            cashP.textContent = cashArr[i];
+            cashHtml.append(cashP)
+        }
+    }
+}
+

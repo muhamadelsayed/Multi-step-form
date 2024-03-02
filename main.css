@@ -436,6 +436,11 @@ li div{
     cursor: pointer;
     width: fit-content;
     width: -moz-fit-content;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+.forFlex p:hover{
+    color:hsl(243, 100%, 62%) ;
 }
 .cashPlan{
     color: hsl(213, 96%, 18%);
@@ -469,6 +474,7 @@ li div{
 }
 #addPrice p {
     color:hsl(213, 96%, 18%) ;
+    margin-bottom: 0.5em;
 }
 #finalTotal{
     transform: translateY(-5em);
