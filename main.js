@@ -99,17 +99,18 @@ let monthlyEleS = [...document.getElementsByClassName("monthly")];
 let yearlyEleS = [...document.getElementsByClassName("yearly")];
 let plansArr = [...document.getElementById("plans").children];
 
-let secFormData;
+let secFormData = {
+    id:"",
+    monYear:"month"
+};
 
 let switchContainer = document.getElementById("select-plan-period-container");
 // default
-let monYear = "month";
 yearlyEleS.forEach(e =>{
     e.style.display = "none";
 });
 switchContainer.children[2].style.color = "hsl(231, 11%, 63%)";
 let switchMonYear = document.getElementById("selcetInput");
-
 switchMonYear.addEventListener("change", (e) => {
     if(switchMonYear.checked){
     switchContainer.children[2].style.color = "hsl(213, 96%, 18%)";
@@ -123,7 +124,7 @@ switchMonYear.addEventListener("change", (e) => {
     plansArr.forEach(e =>{
         e.style.height = "110%"
     });
-    monYear = "year";
+    secFormData.monYear = "year";
 }else{
     switchContainer.children[0].style.color = "hsl(213, 96%, 18%)";
     switchContainer.children[2].style.color = "hsl(231, 11%, 63%)";
@@ -137,7 +138,7 @@ switchMonYear.addEventListener("change", (e) => {
         e.style.height = "100%"
 
     });
-    monYear = "month";
+    secFormData.monYear = "month";
    };
 });
 plansArr.forEach(e =>{
@@ -155,10 +156,7 @@ nextStepEleSBtnS[1].addEventListener("click",()=>{
     if(plansArr[0].classList.contains("selectedPlan") || plansArr[1].classList.contains("selectedPlan") || plansArr[2].classList.contains("selectedPlan")){
         plansArr.forEach(e =>{
             if(e.classList.contains("selectedPlan")){
-                secFormData = {
-                    id:e.id,
-                    monYear:monYear
-                };
+                secFormData.id = e.id;
                 if(secFormData.monYear == "year"){
                     cashInStep3[0].innerHTML = "+$10/yr";
                     cashInStep3[1].innerHTML = "+$20/yr";
@@ -188,30 +186,39 @@ previousBtnS[0].addEventListener("click",()=>{
 // step 3 start
 // some styles functions
 // default
+
 let svgS = document.querySelectorAll(".checkboxcontainer svg");
 svgS.forEach(e =>{
     e.style.display = "none";
 })
-let formThreeData= [];
+let formthreeObj = {};
+formthreeObj.edited = [];
+let uniqueStepThree = new Set();
 document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
     e.addEventListener("click",()=>{
         console.log((e));
         if(e.attributes[1].value == "false"){
             e.attributes[1].value = "true";
-            // document.querySelector(`#${e.id} .cash`).setAttribute("used","yes")
             svgS.forEach(ele =>{
                 if(ele.parentElement.parentElement.parentElement == e){
                   ele.style.display = "block";
                   ele.parentElement.style.border = "none";
                   e.style.background = "hsl(217, 100%, 97%)";
                   e.style.borderColor = "hsl(243, 100%, 62%)";
-                  formThreeData.push(e.id)
+                // I will use set to get unique in case of returning and get new data 
+                uniqueStepThree.add(e.id)
+                console.log(uniqueStepThree);
+                formthreeObj.strData = [...uniqueStepThree]
                 }
+                
             })
         }else{
             e.attributes[1].value = "false"
-            formThreeData = formThreeData.filter(element =>{return element !== e.id})
-            // document.querySelector(`#${e.id} .cash`).setAttribute("used","no")
+            // filtering using set
+            uniqueStepThree.delete(e.id);
+            formthreeObj.strData = [...uniqueStepThree]
+            console.log(formthreeObj);
+            console.log(uniqueStepThree);
             svgS.forEach(ele =>{
                 if(ele.parentElement.parentElement.parentElement == e){
                     ele.style.display = "none"
@@ -221,18 +228,6 @@ document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
                 }
             })
         }
-        // if(document.querySelector(`#${e.id} .cash`).attributes[1].value === "yes"){
-        //     formthreeCash.push(parseInt(document.querySelector(`#${e.id} .cash`).innerHTML.match(/\d+/)));
-        // }else{
-        //     // formthreeCash.filter(elem =>{return elem !== document.querySelector(`#${e.id} .cash`).innerHTML.match(/\d+/)})
-        //     let destruction = [];
-        //     for(let j = 0;j<formthreeCash.length;j++){
-        //         if(!formthreeCash[j] !== document.querySelector(`#${e.id} .cash`).innerHTML.match(/\d+/)){
-        //             destruction.push(formthreeCash[j])
-        //         }
-        //     }
-        //     formthreeCash = destruction;
-        // }
     })
 })
 nextStepEleSBtnS[2].addEventListener("click",()=>{
@@ -240,6 +235,7 @@ nextStepEleSBtnS[2].addEventListener("click",()=>{
 })
 previousBtnS[1].addEventListener("click",()=>{
     previousStep()
+    console.log(secFormData.monYear);
 })
 // step 3 end
 // step 4 start
@@ -249,6 +245,28 @@ previousBtnS[1].addEventListener("click",()=>{
 // additions (arr) in useableFormThreeData
 // add price as i missed include it
 let planPrice;
+// handle and update step 3
+// formthreeCashObj
+function updateStep3(){
+    // for filtering
+    formthreeObj.edited.length = 0;
+    if(formthreeObj.strData.length){
+    for(let i = 0;i<formthreeObj.strData.length;i++){
+        if(formthreeObj.strData[i] === "Profile"){
+            formthreeObj.edited.push("Customizable Profile");
+            formthreeObj.Profile = `+$${secFormData.monYear == "month"?"2/mo":"20/yr"}`;
+        }
+        if(formthreeObj.strData[i] === "storage"){
+            formthreeObj.edited.push("Larger storage");
+            formthreeObj.storage = `+$${secFormData.monYear == "month"?"2/mo":"20/yr"}`;
+        }
+        if(formthreeObj.strData[i] === "service"){
+            formthreeObj.edited.push("Online service")
+            formthreeObj.service = `+$${secFormData.monYear == "month"?"1/mo":"10/yr"}`;
+        }
+    }
+  } 
+}
 function cashMonYear(){
     if(secFormData.monYear == "month"){
         switch (secFormData.id) {
@@ -276,35 +294,27 @@ function cashMonYear(){
         }
     }
 }
-let formthreeCashObj = {};
-let formthreeCash = [];
 // I've added another event listener to be able to deal with new data
+let totalPerMonOrYear = document.getElementById("totalPer");
+let totalCashFormThree = 0;
+let totalPrice = document.getElementById("finalPrice");
 nextStepEleSBtnS[2].addEventListener("click",()=>{
     // first section
     cashMonYear()
     document.querySelector(".forFlex h4").innerHTML = `${secFormData.id} (${secFormData.monYear == "month"?"Monthly":"Yearly"})`;
     document.querySelector(".cashPlan").innerHTML = `${planPrice}`;
     // second section
-    // handle names in the array
-    for(let i = 0;i<formThreeData.length;i++){
-        if(formThreeData[i] === "Profile"){
-            formThreeData[i] = "Customizable Profile";
-            formthreeCashObj.Profile = `+$${secFormData.monYear == "month"?"2/mo":"20/yr"}`;
-        }
-        if(formThreeData[i] === "storage"){
-            formThreeData[i] = "Larger storage"
-            formthreeCashObj.storage = `+$${secFormData.monYear == "month"?"2/mo":"20/yr"}`;
-        }
-        if(formThreeData[i] === "service"){
-            formThreeData[i] = "Online service"
-            formthreeCashObj.service = `+$${secFormData.monYear == "month"?"1/mo":"10/yr"}`;
-        }
-    }
-    formthreeCash = Object.values(formthreeCashObj);
+    updateStep3()
     // adding text and price for extentions
     let htmlText = document.getElementById("addName");
     let htmlCash = document.getElementById("addPrice");
-    createPElementS(formThreeData,htmlText,formthreeCash,htmlCash)
+    // suppose user went and go again i clear it before next func
+    htmlText.innerHTML = "";
+    htmlCash.innerHTML = "";
+    createPElementS(formthreeObj,htmlText,htmlCash)
+    // total section
+    totalPerMonOrYear.innerHTML = `Total (per ${secFormData.monYear})`;
+    totalPrice.innerHTML = calcTotal(planPrice,totalCashFormThree)
 })
 // change logic
 document.querySelector(".forFlex p").addEventListener("click",()=>{
@@ -315,7 +325,8 @@ document.querySelector(".forFlex p").addEventListener("click",()=>{
         document.querySelector(".forFlex h4").innerHTML = `${secFormData.id} (${secFormData.monYear == "month"?"Monthly":"Yearly"})`;
         document.querySelector(".cashPlan").innerHTML = `${planPrice}`;
         // second section
-        if(formthreeCash.length !== 0){
+        updateStep3()
+        if(formthreeObj.strData.length !== 0){
             document.querySelectorAll(`#addPrice p`).forEach(e =>{
                 e.textContent = `+$${e.textContent.slice(2,3)}0/yr`
             })
@@ -327,24 +338,98 @@ document.querySelector(".forFlex p").addEventListener("click",()=>{
         document.querySelector(".forFlex h4").innerHTML = `${secFormData.id} (${secFormData.monYear == "month"?"Monthly":"Yearly"})`;
         document.querySelector(".cashPlan").innerHTML = `${planPrice}`;
         // second section
-        if(formthreeCash.length !== 0){
+        updateStep3()
+        if(formthreeObj.strData.length !== 0){
             document.querySelectorAll(`#addPrice p`).forEach(e =>{
                 e.textContent = `+$${e.textContent.slice(2,3)}/mo`
             })
         }
     }
+    // update previous (plans)
+    if(secFormData.monYear == "year"){
+        switchMonYear.checked = true;
+        switchContainer.children[2].style.color = "hsl(213, 96%, 18%)";
+        switchContainer.children[0].style.color = "hsl(231, 11%, 63%)";
+        monthlyEleS.forEach(e =>{
+            e.style.display = "none";
+        });
+        yearlyEleS.forEach(e =>{
+            e.style.display = "block";
+        });
+        plansArr.forEach(e =>{
+            e.style.height = "110%"
+        });
+    }else{
+        switchMonYear.checked = false;
+        switchContainer.children[0].style.color = "hsl(213, 96%, 18%)";
+        switchContainer.children[2].style.color = "hsl(231, 11%, 63%)";
+        yearlyEleS.forEach(e =>{
+            e.style.display = "none";
+        });
+        monthlyEleS.forEach(e =>{
+            e.style.display = "block";
+        });
+        plansArr.forEach(e =>{
+            e.style.height = "100%"
+        });
+    };
+    // update previous (add-ons)
+    if(secFormData.monYear == "year"){
+        cashInStep3[0].innerHTML = "+$10/yr";
+        cashInStep3[1].innerHTML = "+$20/yr";
+        cashInStep3[2].innerHTML = "+$20/yr";
+    }else{
+        cashInStep3[0].innerHTML = "+$1/mo";
+        cashInStep3[1].innerHTML = "+$2/mo";
+        cashInStep3[2].innerHTML = "+$2/mo";
+    }
+    // total section
+    totalPerMonOrYear.innerHTML = `Total (per ${secFormData.monYear})`;
+    totalPrice.innerHTML = calcTotal(planPrice,totalCashFormThree)
 })
-// step 4 end
-function createPElementS(textArr,textHtml,cashArr,cashHtml){
-    if(textArr.length !== 0){
-        for(let i = 0;i<textArr.length;i++){
+// creatElement main func
+// formthreeObj .strData[] .Profile,etc = number .edited
+function createPElementS(mainObj,textHtml,cashHtml){
+    if(mainObj.strData.length !== 0){
+        let objKeys = Object.keys(mainObj).slice(2);
+        totalCashFormThree = 0;
+        for(let i = 0;i<mainObj.strData.length;i++){
             let para = document.createElement("p");
-            para.textContent = textArr[i];
+            para.textContent = mainObj.edited[i];
             textHtml.append(para);
             let cashP = document.createElement("p");
-            cashP.textContent = cashArr[i];
+            objKeys.forEach(e =>{
+                console.log(mainObj);
+                if(e === mainObj.strData[i]){
+                    console.log(mainObj);
+                    cashP.textContent = mainObj[e];
+                    totalCashFormThree += +mainObj[e].slice(2,-3)
+                }
+            })
             cashHtml.append(cashP)
         }
     }
 }
+// step two => plan price step three => formthreeObj => totalCashFormThree
+function calcTotal(steptwocash,stepthreeCash){
+    steptwocash = +steptwocash.slice(1,-3);
+    stepthreeCash = +totalCashFormThree
+    if(secFormData.monYear === "year" && totalCashFormThree<10){
+        stepthreeCash = totalCashFormThree * 10;
+        console.log(stepthreeCash);
+    }
+    if(secFormData.monYear === "month" && stepthreeCash>10){
+        stepthreeCash = stepthreeCash /10;
+    }
+    return `$${steptwocash + stepthreeCash}/${secFormData.monYear}`
+}
+// confirm and previous
+previousBtnS[2].addEventListener("click",()=>{
+    previousStep()
+})
+document.getElementById("sum4").addEventListener("click",()=>{
+    document.getElementById("finalmessage").style.display = "flex"
+    allStips.slice(1).forEach(e => {e.innerHTML = ""; e.remove()})
+})
+// step 4 end
 

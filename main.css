@@ -1,6 +1,7 @@
 *{
     margin: 0;
     box-sizing: border-box;
+    font-family: "Ubuntu", sans-serif;
 }
 body{
     height: 95vh;
@@ -20,9 +21,6 @@ body{
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-}
-p,div,li,h3,label,input,button,h4,span{
-    font-family: "Ubuntu", sans-serif;
 }
  /* Sidebar start */
 #Sidebar{
@@ -407,6 +405,7 @@ li div{
 /* step four start*/
 #stepFour{
     align-items: normal;
+    position: relative;
 }
 #totalAccount{
     height: 45%;
@@ -414,7 +413,7 @@ li div{
     background-color: hsl(217, 100%, 97%);
     border: 1px solid hsl(217, 100%, 97%);
     border-radius: 10px;
-    transform :translateY(-3.5em);
+    transform :translateY(-1.5em);
 }
 #selectedPlanDisplay{
     display: flex;
@@ -477,11 +476,11 @@ li div{
     margin-bottom: 0.5em;
 }
 #finalTotal{
-    transform: translateY(-5em);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 110%;
+    transform: translateY(-1.5em);
 }
 #totalPer{
     margin-left:1em ;
@@ -493,7 +492,104 @@ li div{
     font-weight: bolder;
     font-size: larger;
 }
+#sum4{
+    margin-bottom: 2em;
+    transform: translateY(1.5em);
+    margin-right: -2.2em;
+}
+#back4{
+    margin-bottom: 2.2em;
+    transform: translateY(1.5em);
+}
 /* step four end*/
+/* last message */
+#finalmessage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: -webkit-fill-available;
+}
+#finalmessage img{
+    width: 15%;
+    aspect-ratio: 1/1;
+    margin-bottom: 1em;
+    user-select: none;
+    -webkit-user-select:none;
+}
+.forLastFlex{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    margin-bottom: 1em;
+}
+.forLastFlex h2{
+    color:hsl(213, 96%, 18%) ;
+    font-size: 26px;
+    font-weight: bolder;
+    margin-bottom: 0.5em;
+}
+.forLastFlex p{
+    color:hsl(231, 11%, 63%) ;
+    text-align: center;
+}
 /* main sectoin end */
-
-
+/* new styles */
+#stepOne .lorem{
+    transform: translateY(0.7em);
+}
+#formOne{
+    transform: translateY(-3em);
+}
+#stepTwo .lorem{
+    transform: translateY(0.6)
+}
+#full-plans{
+    transform: translateY(-2.35em);
+}
+#stepFour .lorem{
+    transform: translateY(0.6em);
+}
+/* now time  for responsive */
+/* step one responsive */
+@media screen and (min-width:1024px) {
+    #stepOne{
+        align-items: normal;
+    }
+}
+@media screen and (max-width:800px) {
+    #container{
+        flex-direction: column;
+    }
+    #Sidebar{
+        background: url(./assets/images/bg-sidebar-mobile.svg);
+        background-size: cover;
+        min-height: fit-content;
+        min-height: -moz-fit-content;
+        width: 100%;
+        height: 20%;
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        z-index: -1;
+    }
+    #Sidebar ul{
+        flex-direction: row;
+        height:2.5em ;
+        justify-content: center;
+        width: 50%;
+    }
+    #Sidebar li{
+        justify-content: center;
+    }
+    #Sidebar li div{
+        display: none;
+    }
+    #Sidebar li p{
+        display: none;
+    }
+}
