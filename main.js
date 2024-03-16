@@ -166,6 +166,13 @@ nextStepEleSBtnS[1].addEventListener("click",()=>{
                     cashInStep3[1].innerHTML = "+$2/mo";
                     cashInStep3[2].innerHTML = "+$2/mo";
                 }
+                // error new styles handling
+                if(window.innerWidth <= "800"){
+                let mainContainer = document.getElementById("container");
+                mainContainer.style.height = "60vh";
+                mainContainer.style.marginBottom = "5vh";
+                mainContainer.style.minHeight = "200px";
+                }
                 nextStep()
             }
         })
@@ -232,6 +239,14 @@ document.querySelectorAll("#service,#storage,#Profile").forEach(e =>{
 })
 nextStepEleSBtnS[2].addEventListener("click",()=>{
     nextStep()
+    // handle empty error
+    console.log(uniqueStepThree);
+    console.log(uniqueStepThree.size);
+    if(uniqueStepThree.size === 0){
+        formthreeObj.strData = [];
+        console.log(formthreeObj.strData);
+        console.log(formthreeObj.strData.length);
+    }
 })
 previousBtnS[1].addEventListener("click",()=>{
     previousStep()
@@ -385,6 +400,9 @@ document.querySelector(".forFlex p").addEventListener("click",()=>{
     }
     // total section
     totalPerMonOrYear.innerHTML = `Total (per ${secFormData.monYear})`;
+    if(uniqueStepThree.size === 0){
+        totalCashFormThree = 0;
+    }
     totalPrice.innerHTML = calcTotal(planPrice,totalCashFormThree)
 })
 // creatElement main func
@@ -408,12 +426,19 @@ function createPElementS(mainObj,textHtml,cashHtml){
             })
             cashHtml.append(cashP)
         }
+        // new handle for empty
+        if(uniqueStepThree.size === 0){
+            totalCashFormThree = 0;
+        }
     }
 }
 // step two => plan price step three => formthreeObj => totalCashFormThree
 function calcTotal(steptwocash,stepthreeCash){
     steptwocash = +steptwocash.slice(1,-3);
     stepthreeCash = +totalCashFormThree
+    // new handle for empty
+    if(uniqueStepThree.size === 0){stepthreeCash = 0;};
+    
     if(secFormData.monYear === "year" && totalCashFormThree<10){
         stepthreeCash = totalCashFormThree * 10;
         console.log(stepthreeCash);
@@ -431,5 +456,34 @@ document.getElementById("sum4").addEventListener("click",()=>{
     document.getElementById("finalmessage").style.display = "flex"
     allStips.slice(1).forEach(e => {e.innerHTML = ""; e.remove()})
 })
+console.clear()
 // step 4 end
-
+// some responsive styles
+let mainContainer = document.getElementById("container");
+[...nextStepEleSBtnS,...previousBtnS].forEach(e=>{
+    e.addEventListener("click",()=>{
+        if(window.innerWidth <= "800"){
+            console.log(window.innerWidth);
+        
+        if(e.id == "back4"){
+            mainContainer.style.height = "60vh";
+            mainContainer.style.marginBottom = "5vh";
+            mainContainer.style.minHeight = "200px";
+        }else if(e.id == "sum2"){""}
+        else if(e.id == "sum3"){
+            mainContainer.style.height = "58.5vh";
+            mainContainer.style.marginBottom = "5vh";
+            mainContainer.style.minHeight = "200px";
+        }else if (e.id == "sum4"){
+            mainContainer.style.height = "55vh";
+            mainContainer.style.minHeight = "200px";
+            mainContainer.style.marginBottom = "11vh";
+            [...document.getElementsByClassName("last")][0].remove()
+        }else{
+            mainContainer.style.height = "70vh";
+            mainContainer.style.marginBottom = "0";
+            mainContainer.style.minHeight = "450px";
+        }
+    }
+    })
+})

@@ -21,6 +21,7 @@ body{
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+    box-shadow: 0px 8px 15px 1px #4d5a6d;
 }
  /* Sidebar start */
 #Sidebar{
@@ -500,6 +501,8 @@ li div{
 #back4{
     margin-bottom: 2.2em;
     transform: translateY(1.5em);
+    width: fit-content;
+    width: -moz-fit-content
 }
 /* step four end*/
 /* last message */
@@ -553,7 +556,14 @@ li div{
 #stepFour .lorem{
     transform: translateY(0.6em);
 }
+/* attriibtion */
+.attribution { font-size: 11px; text-align: center; }
+.attribution a { color: hsl(228, 45%, 44%); }
+.attribution a:visited {color: hsl(228, 45%, 44%);}
 /* now time  for responsive */
+.last{
+    display: none;
+}
 /* step one responsive */
 @media screen and (min-width:1024px) {
     #stepOne{
@@ -561,25 +571,31 @@ li div{
     }
 }
 @media screen and (max-width:800px) {
+    body{
+        height: 100vh;
+        min-height: 650px;
+        position: relative;
+    }
     #container{
         flex-direction: column;
+        width: 90%;
     }
     #Sidebar{
         background: url(./assets/images/bg-sidebar-mobile.svg);
         background-size: cover;
-        min-height: fit-content;
-        min-height: -moz-fit-content;
         width: 100%;
         height: 20%;
+        min-height: 100px;
         position: absolute;
         top: 0;
         display: flex;
         justify-content: center;
         z-index: -1;
+        border-radius: 0;
     }
     #Sidebar ul{
         flex-direction: row;
-        height:2.5em ;
+        height: 80%;
         justify-content: center;
         width: 50%;
     }
@@ -591,5 +607,130 @@ li div{
     }
     #Sidebar li p{
         display: none;
+    }
+    #main-section{
+        width: 85%;
+    }
+    #stepOne{
+        align-items: flex-start;
+    }
+    #formOne{
+        width: 100%;
+    }
+    .lorem{
+        width: 80%;
+    }
+    #formOne input{
+        width: 100%;
+    }
+    .nextBtn{
+        bottom: calc(-23.5vh);
+        margin: 0;
+        height: 2.5em;
+        width: 6em;
+        border-radius: 5px;
+    }
+    .last{
+        display: block;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 4em;
+        background-color: white;
+        z-index: -1;
+    }
+    /* step one is done */
+    #stepTwo{
+        width: 100%;
+        justify-content: normal;
+    }
+    #stepTwo .lorem{
+        transform: translateY(1.5em);
+    }
+    #full-plans{
+        width: 100%;
+        height: 58%;
+        transform: translateY(1em);
+    }
+    #plans{
+        width: 100%;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+    #Arcade, #Advanced, #Pro {
+        width: 100%;
+        flex-direction: row;
+        justify-content: normal;
+        align-items: center;
+    }
+    .Arcadespan, .Advancedspan, .Prospan{
+        margin: 0;
+        margin-left: 1em;
+    }
+    .some-space{
+        margin: 0;
+        margin-left: 1em;
+    }
+    #select-plan-period-container{
+        transform: translateY(2em);
+    }
+    #back2{
+        position: absolute;
+        bottom: calc(-14.5vh);
+        margin: 0;
+    }
+    #sum2{
+        bottom: calc(-16vh);
+    }
+    /* step two is done */
+    #stepThree{
+        width: 100%;
+    }
+    #lorem3{
+        width: 90%;
+        transform: translateY(1.5em);
+    }
+    .lorem h3{
+        font-size: 22px;
+    }
+    #add-onsContainer {
+        height: 70%;
+        transform: translateY(4.5vh);
+    }
+    .hfour{
+        font-size:medium;
+    }
+    .moveable2{
+        width: 80%;
+    }
+    #back3{
+        bottom: calc(-20.5vh);
+        margin: 0;
+    }
+    /* step three is done */
+    #totalAccount{
+        height: 55%;
+        transform: translateY(0.5vh);
+        width: 100%;
+    }
+    #finalTotal{
+        width: 105%;
+        transform: translateY(0.5vh)
+    }
+    #back4{
+        position: absolute;
+        bottom: calc(-17.5vh);
+        margin: 0;
+    }
+    #sum4{
+        margin: 0;
+        bottom: calc(-19vh);
+    }
+    /* step four is done */
+    #finalmessage img{
+        width: 20%;
+    }
+    .forLastFlex{
+        width: 100%;
     }
 }
